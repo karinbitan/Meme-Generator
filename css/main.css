@@ -1,13 +1,92 @@
-*{
+* {
     box-sizing: border-box;
 }
 
-#meme-canvas{
+@font-face {
+    font-family: 'mont-regular';
+    src: url(font\Montserrat-Regular.ttf);
+}
+@font-face {
+    font-family: 'mont-bold';
+    src: url(font\Montserrat-Bold.ttf);
+}
+@font-face {
+    font-family: 'mont-thin';
+    src: url(font\Montserrat-Thin.ttf);
+}
+/* Basic */
+
+html {
+    font-family: 'mont-regular';
+}
+
+body {
+    font-size: 1rem;
+    margin: 0;
+}
+
+li {
+    list-style-type: none;
+}
+
+img {
+    max-width: 100%;
+}
+
+/* Layout */
+
+/* Helpers */
+
+.flex {
+    display: flex;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+/* Header */
+
+.main-header {
+    height: 66px;
+    background: #ff7f00;
+}
+
+.main-nav li {
+    color: white;
+    font-size: 19px;
+}
+
+/* Main */
+
+.main-content{
+padding-top: 102px;
+}
+
+
+#meme-canvas {
     border: 1px solid black;
 }
 
-.img-meme{
-    width: 200px;
-    height: 200px;
+.gallery {
+    background: #e3e3e3;
+}
+
+.img-meme {
+    width: 353px;
+    height: 278px;
     cursor: pointer;
+}
+
+.profile {
+    width: 322px;
+    height: 322px;
+    border-radius: 50%;
+}
+
+/* Footer */
+
+.main-footer {
+    height: 207px;
+    background: #ff7f00;
 }

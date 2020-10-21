@@ -10,7 +10,14 @@ function init() {
 
 function renderEditor(){
     var strHTML = '';
-    strHTML = `<input type='text' onchange='getText(this.value)' /> <button onclick="drawText()">Text</button>`
+    strHTML = `<input type='text' onkeypress='drawText(this.value)' />
+    <br />
+    <button onclick='increaseFontSize()'>+</button>
+    <span class='font-size'>${gMeme.lines[0].size}</span>
+    <button onclick='decreaseFontSize()'>-</button>
+    <br />
+    <button onclick='moveUp'>Up</button><button onclick='moveDown'>Down</button>
+    `
     document.querySelector('.editor').innerHTML = strHTML;
 }
 

@@ -1,18 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meme Generator</title>
     <link rel="stylesheet" href="css/main.css">
 </head>
+
 <body onload="init()">
-    <canvas id="meme-canvas" width="500" height="500"></canvas>
-    <div class="editor"></div>
-    <div class="gallery"></div>
-    
+    <header class="main-header">
+        <div class="header-container container flex space-between">
+            <img src="design/logo.png" alt="logo" />
+            <nav>
+                <ul class="main-nav flex">
+                    <li>Gallery</li>
+                    <li>About</li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main class="main-content">
+        <div class="editor-container">
+            <canvas id="meme-canvas" width="500" height="500"></canvas>
+            <div class="editor"></div>
+        </div>
+        <div class="gallery"></div>
+        <section class="second-section">
+            <img class="profile" src="design/mon.png" alt="the real Monica" />
+            <h4>Monica Geller</h4>
+            <p>is a fictional character, one of the six main characters who appears on
+                the American sitcom Friends (1994–2004). Created by David Crane and Marta Kauffman</p>
+
+        </section>
+    </main>
+    <footer class="main-footer">
+        <img src="design/logo.png" alt="logo" />
+        <p>all rights reserved 2020</p>
+    </footer>
+
     <script src="js/util-service.js"></script>
     <script src="js/meme-service.js"></script>
     <script src="js/meme-controll.js"></script>
 </body>
+
 </html>
