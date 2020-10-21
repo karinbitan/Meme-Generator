@@ -32,15 +32,20 @@ var gMeme =
             align: 'left',
             strokColor: 'black',
             fillColor: 'white',
-            font: 'Impact'
+            font: 'Impact',
+            x: 70,
+            y: 100
         },
         {
-            txt: 'Write your text',
+            txt: 'Write your text2',
             size: 50,
             align: 'left',
             strokColor: 'black',
             fillColor: 'white',
-            font: 'Impact'
+            font: 'Impact',
+            align: 'center',
+            x: 70,
+            y: 300
         }
 
     ]
@@ -64,15 +69,30 @@ function setImg(imgID) {
     drawImg();
 }
 
-function increaseFontSize(){
-gMeme.lines[0].size += 10;
-document.querySelector('.font-size').innerText = gMeme.lines[0].size;
+function increaseFontSize() {
+    gMeme.lines[0].size += 10;
+    document.querySelector('.font-size').innerText = gMeme.lines[0].size;
 }
 
-function decreaseFontSize(){
+function decreaseFontSize() {
     gMeme.lines[0].size -= 10;
     document.querySelector('.font-size').innerText = gMeme.lines[0].size;
 }
+
+function changeAlign(align) {
+    switch (align) {
+        case 'left':
+            gMeme.lines[0].align = 'left';
+            break;
+        case 'center':
+            gMeme.lines[0].align = 'center';
+            break;
+        case 'right':
+            gMeme.lines[0].align = 'right';
+            break;
+    }
+}
+
 
 function drawImg() {
     var imgId = gMeme.selectedImgId;
@@ -84,7 +104,23 @@ function drawImg() {
     }
 }
 
-function drawText(text, x = 70, y = 100) {
+function drawText1(text, x = 70, y = 100) {
+    gMeme.lines[0].txt = text;
+
+    var text = gMeme.lines[0].txt;
+    var size = gMeme.lines[0].size;
+    var font = gMeme.lines[0].font;
+
+    gCtx.strokeStyle = 'black';
+    gCtx.fillStyle = 'white';
+    gCtx.lineWidth = '2'
+    gCtx.font = `${size}px ${font}`;
+    gCtx.textAlign = gMeme.lines[0].align;
+    gCtx.fillText(text, x, y)
+    gCtx.strokeText(text, x, y)
+}
+
+function drawText2(text, x = 70, y = 400) {
     gMeme.lines[0].txt = text;
 
     var text = gMeme.lines[0].txt;
@@ -99,5 +135,4 @@ function drawText(text, x = 70, y = 100) {
     gCtx.fillText(text, x, y)
     gCtx.strokeText(text, x, y)
 }
-
 

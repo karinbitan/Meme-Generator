@@ -6,14 +6,17 @@
     font-family: 'mont-regular';
     src: url(font\Montserrat-Regular.ttf);
 }
+
 @font-face {
     font-family: 'mont-bold';
     src: url(font\Montserrat-Bold.ttf);
 }
+
 @font-face {
     font-family: 'mont-thin';
     src: url(font\Montserrat-Thin.ttf);
 }
+
 /* Basic */
 
 html {
@@ -59,17 +62,44 @@ img {
 
 /* Main */
 
-.main-content{
-padding-top: 102px;
+.main-content {
+    padding-top: 102px;
 }
 
+/* Canvas */
 
 #meme-canvas {
     border: 1px solid black;
 }
 
+/* Editor */
+
+.editor {
+    padding-left: 100px;
+    padding-right: 124px;
+    padding-top: 27px;
+    background-color: #e3e3e3;
+}
+
+.editor .text-meme {
+    width: 380px;
+    height: 60px;
+    font-size: 20px;
+    border-radius: 10px;
+    border: #e3e3e3 1px solid;
+}
+
+.editor-btn {
+    width: 40px;
+    height: 41px;
+    border-radius: 12px;
+    background-color: #ffffff;
+  }
+
+/* Gallery */
+
 .gallery {
-    background: #e3e3e3;
+    background-color: #e3e3e3;
 }
 
 .img-meme {
