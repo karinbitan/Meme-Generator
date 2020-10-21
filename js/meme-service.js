@@ -17,7 +17,10 @@ var gImgs = [
     { id: 12, url: 'img/12.jpg' },
     { id: 13, url: 'img/13.jpg' },
     { id: 14, url: 'img/14.jpg' },
-    { id: 15, url: 'img/15.jpg' }
+    { id: 15, url: 'img/15.jpg' },
+    { id: 14, url: 'img/16.jpg' },
+    { id: 14, url: 'img/17.jpg' },
+    { id: 14, url: 'img/18.jpg' }
 
 ];
 
@@ -29,7 +32,7 @@ var gMeme =
         {
             txt: 'Write your text',
             size: 50,
-            align: 'left',
+            align: 'center',
             strokColor: 'black',
             fillColor: 'white',
             font: 'Impact',
@@ -39,11 +42,10 @@ var gMeme =
         {
             txt: 'Write your text2',
             size: 50,
-            align: 'left',
+            align: 'center',
             strokColor: 'black',
             fillColor: 'white',
             font: 'Impact',
-            align: 'center',
             x: 70,
             y: 300
         }
@@ -66,33 +68,7 @@ function getImgById(imgId) {
 
 function setImg(imgID) {
     gMeme.selectedImgId = imgID;
-    drawImg();
 }
-
-function increaseFontSize() {
-    gMeme.lines[0].size += 10;
-    document.querySelector('.font-size').innerText = gMeme.lines[0].size;
-}
-
-function decreaseFontSize() {
-    gMeme.lines[0].size -= 10;
-    document.querySelector('.font-size').innerText = gMeme.lines[0].size;
-}
-
-function changeAlign(align) {
-    switch (align) {
-        case 'left':
-            gMeme.lines[0].align = 'left';
-            break;
-        case 'center':
-            gMeme.lines[0].align = 'center';
-            break;
-        case 'right':
-            gMeme.lines[0].align = 'right';
-            break;
-    }
-}
-
 
 function drawImg() {
     var imgId = gMeme.selectedImgId;
@@ -111,8 +87,8 @@ function drawText1(text, x = 70, y = 100) {
     var size = gMeme.lines[0].size;
     var font = gMeme.lines[0].font;
 
-    gCtx.strokeStyle = 'black';
-    gCtx.fillStyle = 'white';
+    gCtx.strokeStyle = gMeme.lines[0].strokColor;
+    gCtx.fillStyle = gMeme.lines[0].fillColor;
     gCtx.lineWidth = '2'
     gCtx.font = `${size}px ${font}`;
     gCtx.textAlign = gMeme.lines[0].align;
@@ -120,19 +96,45 @@ function drawText1(text, x = 70, y = 100) {
     gCtx.strokeText(text, x, y)
 }
 
-function drawText2(text, x = 70, y = 400) {
-    gMeme.lines[0].txt = text;
+function drawText2(x = 70, y = 400) {
+    gMeme.lines[1].txt = text;
 
-    var text = gMeme.lines[0].txt;
-    var size = gMeme.lines[0].size;
-    var font = gMeme.lines[0].font;
+    var text = gMeme.lines[1].txt;
+    var size = gMeme.lines[1].size;
+    var font = gMeme.lines[1].font;
 
-    gCtx.strokeStyle = 'black';
-    gCtx.fillStyle = 'white';
+    gCtx.strokeStyle = gMeme.lines[1].strokColor;
+    gCtx.fillStyle = gMeme.lines[1].fillColor;
     gCtx.lineWidth = '2'
     gCtx.font = `${size}px ${font}`;
-    gCtx.textAlign = 'start'
+    gCtx.textAlign = gMeme.lines[1].align;
     gCtx.fillText(text, x, y)
     gCtx.strokeText(text, x, y)
+}
+
+function increaseFontSize() {
+    gMeme.lines[0].size += 10;
+}
+
+function decreaseFontSize() {
+    gMeme.lines[0].size -= 10;
+}
+
+function changeAlign(align) {
+    switch (align) {
+        case 'left':
+            gMeme.lines[0].align = 'left';
+            break;
+        case 'center':
+            gMeme.lines[0].align = 'center';
+            break;
+        case 'right':
+            gMeme.lines[0].align = 'right';
+            break;
+    }
+}
+
+function changeFont(value){
+gMeme.lines[0].font = value;
 }
 
