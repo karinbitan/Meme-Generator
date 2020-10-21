@@ -1,0 +1,13 @@
+*{
+    box-sizing: border-box;
+}
+
+#meme-canvas{
+    border: 1px solid black;
+}
+
+.img-meme{
+    width: 200px;
+    height: 200px;
+    cursor: pointer;
+}
