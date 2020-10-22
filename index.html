@@ -11,7 +11,7 @@
 <body onload="init()">
     <header class="main-header">
         <div class="header-container container flex space-between align-center">
-            <div class="logo"><img src="design/logo.png" alt="logo" /></div>
+            <img src="design/logo.png" alt="logo" />
             <nav>
                 <ul class="main-nav flex">
                     <li onclick="openGallery()">Gallery</li>
@@ -32,7 +32,11 @@
             </div>
             <div class="editor"></div>
         </div>
-        <div class="gallery"></div>
+        <section class="main-section">
+            <div class="gallery-container container">
+                <div class="gallery"></div>
+            </div>
+        </section>
         <section class="profile-section flex">
             <img class="profile-img" src="design/mon.png" alt="the real Monica" />
             <div class="profile-text flex-columns">
@@ -46,6 +50,7 @@
                 </div>
             </div>
         </section>
+
     </main>
     <footer class="main-footer">
         <div class="footer-container">
@@ -57,7 +62,7 @@
 
     <script src="js/util-service.js"></script>
     <script src="js/meme-service.js"></script>
-    <script src="js/meme-controll.js"></script>
+    <script src="js/meme-controller.js"></script>
 </body>
 
 </html>
