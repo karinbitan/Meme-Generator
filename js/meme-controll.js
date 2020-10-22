@@ -10,7 +10,7 @@ function init() {
 // <span class='font-size'>${gMeme.lines[0].size}</span>
 function renderEditor() {
     var strHTML = '';
-    strHTML = `<input type='text' onkeypress='drawText1(this.value)' class='text-meme' placeholder='text line1' /> <br />
+    strHTML = `<input type='text' onkeypress='drawText(this.value)' class='text-meme' placeholder='text line1' /> <br />
     <button class='editor-btn'><img src='design/ICONS/up-and-down-opposite-double-arrows-side-by-side.png' /></button>
     <button class='editor-btn' onclick='onAddLine()'><img src='design/ICONS/add.png' /></button>
     <button class='editor-btn'><img src='design/ICONS/trash.png' /></button> <br />
@@ -57,10 +57,12 @@ function onAddLine() {
 
 
 function onIncreaseFontSize() {
+    increaseFontSize();
     document.querySelector('.font-size').innerText = gMeme.lines[0].size;
 }
 
 function onDecreaseFontSize() {
+    decreaseFontSize();
     document.querySelector('.font-size').innerText = gMeme.lines[0].size;
 }
 
