@@ -2,6 +2,9 @@
 var gCanvas;
 var gCtx;
 
+var gCanvas2;
+var gCtx2;
+
 var gImgs = [
     { id: 1, url: 'img/1.jpg' },
     { id: 2, url: 'img/2.jpg' },
@@ -28,8 +31,8 @@ const default_text_line = {
     txt: 'Please edit me',
     size: 50,
     align: 'start',
-    strokColor: 'black',
-    fillColor: 'white',
+    strokeStyle: 'black',
+    fillStyle: 'white',
     font: 'Impact',
     x: 10,
     y: 100
@@ -48,8 +51,8 @@ var gMeme =
             txt: '',
             size: 50,
             align: 'start',
-            strokColor: 'black',
-            fillColor: 'white',
+            strokeStyle: 'black',
+            fillStyle: 'white',
             font: 'Impact',
             x: 10,
             y: firstLinePosition
@@ -69,12 +72,13 @@ function getImgById(imgId) {
 function setImg(imgID) {
 
     for (let i = 0; i < gMeme.lines.length; i++) {
-        gMeme.lines[i].strokColor = 'black';
-        gMeme.lines[i].fillColor = 'white';
+        gMeme.lines[i].strokeStyle = 'black';
+        gMeme.lines[i].fillStyle = 'white';
         gMeme.lines[i].txt = '';
         gMeme.lines[i].size = 50;
         gMeme.lines[i].align = 'start';
     }
+    gMeme.selectedLineIdx = 0;
     gMeme.selectedImgId = imgID;
 }
 
@@ -94,8 +98,8 @@ function drawMeme() {
     img.onload = () => {
         gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height)
         for (let i = 0; i < gMeme.lines.length; i++) {
-            gCtx.strokeStyle = gMeme.lines[i].strokColor;
-            gCtx.fillStyle = gMeme.lines[i].fillColor;
+            gCtx.strokeStyle = gMeme.lines[i].strokeStyle;
+            gCtx.fillStyle = gMeme.lines[i].fillStyle;
             gCtx.lineWidth = '2'
             gCtx.font = `${gMeme.lines[i].size}px ${gMeme.lines[i].font}`;
             gCtx.textAlign = gMeme.lines[i].align;
@@ -173,5 +177,9 @@ function deleteLine() {
 }
 
 function changeFontColor(color) {
-    gMeme.lines[gMeme.selectedLineIdx].fillColor = color;
+    gMeme.lines[gMeme.selectedLineIdx].fillStyle = color;
+}
+
+function changeStrokeColor(color) {
+    gMeme.lines[gMeme.selectedLineIdx].strokeStyle = color;
 }

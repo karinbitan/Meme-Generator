@@ -15,7 +15,7 @@
             <nav>
                 <ul class="main-nav flex">
                     <li onclick="openGallery()">Gallery</li>
-                    <li>Memes</li>
+                    <li onclick="openSavesMemes()">Memes</li>
                     <li>About</li>
                 </ul>
             </nav>
@@ -31,22 +31,33 @@
                 <canvas id="meme-canvas" width="540" height="550"></canvas>
             </div>
             <div class="editor"></div>
+            <!-- The Modal -->
+            <div id="myModal" class="modal">
+                <!-- Modal content -->
+                <div class="modal-content">
+                    <span class="close" onclick="closeModal()">&times;</span>
+                    <div class="share-container"></div>
+                </div>
+            </div>
         </div>
         <section class="main-section">
             <div class="gallery-container container">
                 <div class="gallery"></div>
             </div>
         </section>
+        <section class="memes-tab">
+            <canvas id="meme-canvas2" width="450" height="550"></canvas>
+        </section>
         <section class="profile-section flex">
             <img class="profile-img" src="design/mon.png" alt="the real Monica" />
             <div class="profile-text flex-columns">
-                <h4>Monica Geller</h4>
-                <p>is a fictional character, one of the six main characters who appears on<br />
-                    the American sitcom Friends.</p>
-                <div class="social-media">
-                    <button><img src="design/ICONS/linkedin-logo2.png" alt="linkdin logo"></button>
-                    <button><img src="design/ICONS/facebook-logo2.png" alt="facebook logo"></button>
-                    <button><img src="design/ICONS/github-logo2.png" alt="github logo"></button>
+                <h4>Karin Bitan</h4>
+                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.<br />
+                     Placeat cupiditate necessitatibus tempora? Ullam praesentium voluptates nam?</p>
+                <div class="social-media-container">
+                    <button class="social-media"><a href="https://www.linkedin.com/in/karin-bitan-2051341b8/" target="_blank"><img src="design/ICONS/linkedin-logo2.png" alt="linkdin logo"></a></button>
+                    <button class="social-media"><a href="https://www.facebook.com/karin.bitan.9/" target="_blank"><img src="design/ICONS/facebook-logo2.png" alt="facebook logo"></a></button>
+                    <button class="social-media"><a href="https://github.com/karinbitan" target="_blank"><img src="design/ICONS/github-logo2.png" alt="github logo"></a></button>
                 </div>
             </div>
         </section>

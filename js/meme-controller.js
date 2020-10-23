@@ -4,6 +4,9 @@ function init() {
     gCanvas = document.querySelector('#meme-canvas');
     gCtx = gCanvas.getContext('2d');
 
+    gCanvas2 = document.querySelector('#meme-canvas2');
+    gCtx2 = gCanvas2.getContext('2d');
+
     renderEditor();
     renderGallery();
 }
@@ -30,16 +33,17 @@ function renderEditor() {
 
     <label for='stroke-color'>
     <div class='editor-btn'><img src='design/ICONS/text-stroke.png'/></div>
-    <input type='color' id='stroke-color' style='display:none' onclick='onChangeStrokeColor(this.value)' />
+    <input type='color' id='stroke-color' style='display:none' onChange='onChangeStrokeColor(this.value)' />
     </label>
     <label for='font-color'>
     <div class='editor-btn'><img src='design/ICONS/paint-board-and-brush.png'/></div> 
-    <input type='color' id='font-color' style='display:none' onclick='onChangeFontColor(this.value)' />
+    <input type='color' id='font-color' style='display:none' onChange='onChangeFontColor(this.value)' />
     </label>
     
-    <button class='save-btn'>Save</button>
-     <button class='save-btn'>Share</button>
-    <a href='#' class='save-btn' onclick='onDownloadMeme(this)' download=''>Download</a>
+    <form action='' method='POST' enctype='multipart/form-data' onsubmit='uploadImg(this, event)'>
+    <input name='img' id='imgData' type='hidden' />
+    <button onclick='openModal()' class='share-btn' type='submit'>Share</button>
+</form>
     `;
 
     document.querySelector('.editor').innerHTML = strHTML;
@@ -120,6 +124,7 @@ function onDecreaseFontSize() {
 
 function onChangeFont(value) {
     changeFont(value);
+    drawMeme();
 }
 
 function onDownloadMeme(elLink) {
@@ -134,6 +139,7 @@ function openGallery() {
     document.querySelector('.profile-section').style.display = 'flex';
     document.querySelector('.keyword-container').style.display = 'block';
     document.querySelector('.editor-container').style.display = 'none';
+    document.querySelector('.memes-tab').style.display = 'none';
 }
 
 function openMemesEditor() {
@@ -141,11 +147,83 @@ function openMemesEditor() {
     document.querySelector('.profile-section').style.display = 'none';
     document.querySelector('.keyword-container').style.display = 'none';
     document.querySelector('.editor-container').style.display = 'flex';
+    document.querySelector('.memes-tab').style.display = 'none';
 }
 
+function openSavesMemes() {
+    document.querySelector('.gallery').style.display = 'none';
+    document.querySelector('.profile-section').style.display = 'none';
+    document.querySelector('.keyword-container').style.display = 'none';
+    document.querySelector('.editor-container').style.display = 'none';
+    document.querySelector('.memes-tab').style.display = 'block';
+
+    var dataURL = localStorage.getItem(key);
+    var img = new Image;
+    img.src = dataURL;
+    img.onload = function () {
+        gCtx2.drawImage(img, 0, 0, gCanvas2.width, gCanvas2.height);
+    };
+}
 
 function onChangeFontColor(color) {
     changeFontColor(color);
     drawMeme();
+}
+
+function onChangeStrokeColor(color) {
+    changeStrokeColor(color);
+    drawMeme();
+}
+
+function openModal() {
+    setTimeout(() => {
+        document.querySelector('.modal').style.display = 'block';
+    }, 1000);
+}
+
+function closeModal() {
+    document.querySelector('.modal').style.display = 'none';
+}
+
+window.onclick = function (event) {
+    if (event.target == document.querySelector('.modal')) {
+        document.querySelector('.modal').style.display = "none";
+    }
+}
+
+
+// on submit call to this function
+function uploadImg(elForm, ev) {
+    ev.preventDefault();
+    document.getElementById('imgData').value = gCanvas.toDataURL("image/jpeg");
+
+    // A function to be called if request succeeds
+    function onSuccess(uploadedImgUrl) {
+        uploadedImgUrl = encodeURIComponent(uploadedImgUrl)
+        document.querySelector('.share-container').innerHTML = `
+        <a class="share-btn" href="https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}'); return false;">
+           Share   
+        </a>
+        <a href='#' class='share-btn' onclick='onDownloadMeme(this)' download=''>Download</a>
+        <button class='share-btn' onclick='saveToLocalStorage()'>Save</button>
+        `
+    }
+
+    doUploadImg(elForm, onSuccess);
+}
+
+function doUploadImg(elForm, onSuccess) {
+    var formData = new FormData(elForm);
+    fetch('http://ca-upload.com/here/upload.php', {
+        method: 'POST',
+        body: formData
+    })
+        .then(function (res) {
+            return res.text()
+        })
+        .then(onSuccess)
+        .catch(function (err) {
+            console.error(err)
+        })
 }
 

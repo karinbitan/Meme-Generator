@@ -34,6 +34,7 @@ li {
 
 img {
     max-width: 100%;
+    object-fit: cover;
 }
 
 button {
@@ -121,7 +122,9 @@ button {
     padding-left: 50px;
 }
 
-/* #meme-canvas {} */
+#meme-canvas {
+    max-width: 100%;
+}
 
 /* Editor */
 
@@ -135,6 +138,7 @@ button {
 .editor {
     padding-left: 100px;
     padding-right: 124px;
+    align-items: center;
 }
 
 .editor .text-meme {
@@ -151,12 +155,23 @@ button {
     border: none;
     border-radius: 12px;
     background-color: #ffffff;
+    cursor: pointer;
 }
 
+div .editor-btn {
+    display: inline-block;
+}
 
+.change-font {
+    width: 218px;
+    height: 60px;
+    border-radius: 12px;
+    background-color: #ffffff;
+    font-size: 20px;
+    font-family: mont-regular;
+}
 
-
-.save-btn {
+.share-btn {
     width: 120px;
     height: 60px;
     border: none;
@@ -165,7 +180,64 @@ button {
     font-family: mont-regular;
     font-size: 20px;
     font-weight: 500;
-    color: white; 
+    color: white;
+    padding: 20px 10px;
+    cursor: pointer;
+}
+
+.share-btn a {
+    text-decoration: none;
+    color: white;
+}
+
+/* The Modal (background) */
+
+.modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover, .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 /* Gallery */
@@ -177,8 +249,8 @@ button {
     padding-bottom: 26px;
     padding-top: 25px;
     display: grid;
-    grid-template-rows: repeat(6, 1fr);
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: repeat(6, auto);
+    grid-template-columns: repeat(3, auto);
     grid-gap: 21px 21px;
 }
 
@@ -186,6 +258,17 @@ button {
     width: 353px;
     height: 278px;
     cursor: pointer;
+}
+
+/* Memes Tab Section */
+
+.memes-tab {
+    display: none;
+    background-color: #e3e3e3;
+}
+
+#meme-canvas2 {
+    border: 1px solid black;
 }
 
 /* Profile section */
@@ -217,7 +300,7 @@ button {
     text-align: left;
 }
 
-.social-media button {
+.social-media {
     width: 39px;
     height: 39px;
     border-radius: 12px;
@@ -241,4 +324,26 @@ button {
     font-size: 19px;
     color: white;
     font-family: mont-thin;
+}
+
+@media screen and (max-width: 615px) {
+    .container {
+        max-width: 600px;
+    }
+    .editor-container {
+        flex-direction: column;
+    }
+    #meme-canvas {
+        max-width: 100%;
+    }
+}
+
+@media screen and (max-width: 380px) {
+    .container, .main-header, .main-content {
+        max-width: 350px;
+    }
+    #meme-canvas {
+        max-width: 330px;
+        max-height: 310px;
+    }
 }
