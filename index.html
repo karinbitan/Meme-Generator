@@ -6,31 +6,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meme Generator</title>
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body onload="init()">
     <header class="main-header">
         <div class="header-container container flex space-between align-center">
             <img src="design/logo.png" alt="logo" />
-            <nav>
-                <ul class="main-nav flex">
-                    <li onclick="openGallery()">Gallery</li>
-                    <li onclick="openSavesMemes()">Memes</li>
-                    <li>About</li>
-                </ul>
-            </nav>
+            <ul class="main-nav flex">
+                <li onclick="openGallery()">Gallery</li>
+                <li onclick="openSavesMemes()">Memes</li>
+                <li>About</li>
+                <li><a href="javascript:void(0);" class="icon" onclick="myFunction()">
+                        <i class="fa fa-bars"></i>
+                    </a>
+                </li>
+            </ul>
         </div>
     </header>
     <main class="main-content">
-        <div class="keyword-container container">
-            <input type="search" class="search" placeholder="Enter search keyword" />
-            <img src="design/ICONS/search-icon.png" width="20" height="20">
-        </div>
+        <section class="keyword">
+            <div class="keyword-container container">
+                <input type="search" class="search" placeholder="Enter search keyword" />
+                <img src="design/ICONS/search-icon.png" width="20" height="20">
+            </div>
+        </section>
         <div class="editor-container">
             <div class="canvas-container">
                 <canvas id="meme-canvas" width="540" height="550"></canvas>
             </div>
-            <div class="editor"></div>
+            <div class="editor flex-columns align-center"></div>
             <!-- The Modal -->
             <div id="myModal" class="modal">
                 <!-- Modal content -->
@@ -40,29 +45,27 @@
                 </div>
             </div>
         </div>
-        <section class="main-section">
-            <div class="gallery-container container">
-                <div class="gallery"></div>
-            </div>
-        </section>
+            <div class="gallery container"></div>
         <section class="memes-tab">
-            <canvas id="meme-canvas2" width="450" height="550"></canvas>
-        </section>
-        <section class="profile-section flex">
-            <img class="profile-img" src="design/mon.png" alt="the real Monica" />
-            <div class="profile-text flex-columns">
-                <h4>Karin Bitan</h4>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.<br />
-                     Placeat cupiditate necessitatibus tempora? Ullam praesentium voluptates nam?</p>
-                <div class="social-media-container">
-                    <button class="social-media"><a href="https://www.linkedin.com/in/karin-bitan-2051341b8/" target="_blank"><img src="design/ICONS/linkedin-logo2.png" alt="linkdin logo"></a></button>
-                    <button class="social-media"><a href="https://www.facebook.com/karin.bitan.9/" target="_blank"><img src="design/ICONS/facebook-logo2.png" alt="facebook logo"></a></button>
-                    <button class="social-media"><a href="https://github.com/karinbitan" target="_blank"><img src="design/ICONS/github-logo2.png" alt="github logo"></a></button>
-                </div>
-            </div>
         </section>
 
     </main>
+    <section class="profile-section container flex">
+        <img class="profile-img" src="design/mon.png" alt="the real Monica" />
+        <div class="profile-text flex-columns">
+            <h4>Karin Bitan</h4>
+            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.<br />
+                Placeat cupiditate necessitatibus tempora? Ullam praesentium voluptates nam?</p>
+            <div class="social-media-container">
+                <button class="social-media"><a href="https://www.linkedin.com/in/karin-bitan-2051341b8/"
+                        target="_blank"><img src="design/ICONS/linkedin-logo2.png" alt="linkdin logo"></a></button>
+                <button class="social-media"><a href="https://www.facebook.com/karin.bitan.9/" target="_blank"><img
+                            src="design/ICONS/facebook-logo2.png" alt="facebook logo"></a></button>
+                <button class="social-media"><a href="https://github.com/karinbitan" target="_blank"><img
+                            src="design/ICONS/github-logo2.png" alt="github logo"></a></button>
+            </div>
+        </div>
+    </section>
     <footer class="main-footer">
         <div class="footer-container">
             <img src="design/logo.png" alt="logo" />

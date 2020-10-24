@@ -24,7 +24,7 @@ html {
 }
 
 body {
-    font-size: 1rem;
+    font-size: 1.25rem;
     margin: 0;
 }
 
@@ -34,7 +34,6 @@ li {
 
 img {
     max-width: 100%;
-    object-fit: cover;
 }
 
 button {
@@ -46,10 +45,6 @@ button {
 .container {
     max-width: 1100px;
     margin: 0 auto;
-}
-
-.main-section {
-    background: #e3e3e3;
 }
 
 /* Helpers */
@@ -105,11 +100,15 @@ button {
 
 /* Main */
 
-/* .main-content {
-    padding-top: 102px;
-} */
+.main-content:not(:first-child) {
+    background-color: #e3e3e3;
+}
 
 /* Keyword and Serach */
+
+.keyword {
+    background-color: white;
+}
 
 .keyword-container {
     padding-top: 25px;
@@ -119,7 +118,8 @@ button {
 /* Canvas */
 
 .canvas-container {
-    padding-left: 50px;
+    padding-right: 100px;
+    position: relative;
 }
 
 #meme-canvas {
@@ -133,12 +133,32 @@ button {
     background-color: #e3e3e3;
     padding-top: 27px;
     padding-bottom: 22px;
+    margin: 0 auto;
+    justify-content: space-between;
+    max-width: 1100px;
 }
 
-.editor {
-    padding-left: 100px;
-    padding-right: 124px;
-    align-items: center;
+
+.editor .tools{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.editor .tools:nth-child(2) {
+    justify-content: space-evenly;
+}
+
+.editor div:first-child, .editor div:nth-child(3) {
+    margin-bottom: 12px;
+}
+
+.editor div:nth-child(2) {
+    margin-bottom: 41px;
+}
+
+.editor div:nth-child(4) {
+    margin-bottom: 21px;
 }
 
 .editor .text-meme {
@@ -150,25 +170,47 @@ button {
 }
 
 .editor-btn {
-    width: 40px;
-    height: 41px;
+    width: 60px;
+    height: 60px;
     border: none;
     border-radius: 12px;
     background-color: #ffffff;
     cursor: pointer;
 }
 
+.editor-btn img {
+    max-width: none;
+    width: 39px;
+    height: 38px;
+}
+
 div .editor-btn {
     display: inline-block;
 }
 
+.focus-text{
+    border: 1px solid black;
+    position: absolute;
+}
+
 .change-font {
-    width: 218px;
+    width: 214px;
     height: 60px;
     border-radius: 12px;
     background-color: #ffffff;
     font-size: 20px;
     font-family: mont-regular;
+}
+
+.color-picker-container {
+    position: relative;
+}
+
+.color-picker{
+    position: absolute;
+    visibility: hidden;
+    top: 0;
+    left: 0;
 }
 
 .share-btn {
@@ -242,15 +284,16 @@ div .editor-btn {
 
 /* Gallery */
 
-.gallery {
-    background-color: #e3e3e3;
-    /* margin-bottom: 75px; */
-    padding-left: 70px;
+.gallery-container {
     padding-bottom: 26px;
+}
+
+.gallery {
     padding-top: 25px;
+    padding-bottom: 29px;
     display: grid;
     grid-template-rows: repeat(6, auto);
-    grid-template-columns: repeat(3, auto);
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     grid-gap: 21px 21px;
 }
 
@@ -326,12 +369,23 @@ div .editor-btn {
     font-family: mont-thin;
 }
 
-@media screen and (max-width: 615px) {
+/* Hide the link that should open and close the topnav on small screens */
+
+.main-header li a.icon {
+    display: none;
+}
+
+/* //768? */
+
+@media screen and (max-width: 768px) {
     .container {
         max-width: 600px;
     }
     .editor-container {
         flex-direction: column;
+    }
+    .canvas-container, .editor {
+        margin: auto;
     }
     #meme-canvas {
         max-width: 100%;
@@ -345,5 +399,38 @@ div .editor-btn {
     #meme-canvas {
         max-width: 330px;
         max-height: 310px;
+    }
+    .gallery {
+        grid-template-rows: repeat(9, 160);
+        grid-template-columns: repeat(2, 150px);
+    }
+    /* When the screen is less than 600 pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the topnav (.icon) */
+    @media screen and (max-width: 600px) {
+        .main-header li:not(:last-child) {
+            display: none;
+        }
+        .main-header li a.icon {
+            float: right;
+            display: block;
+        }
+    }
+    /* The "responsive" class is added to the topnav with JavaScript when the user clicks on the icon. This class makes the topnav look good on small screens (display the links vertically instead of horizontally) */
+    @media screen and (max-width: 600px) {
+        .main-header.responsive {
+            position: relative;
+        }
+        .main-header.responsive li a.icon {
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+        .header-container, .main-nav {
+            display: block;
+        }
+        .main-header.responsive li {
+            float: none;
+            display: block;
+            text-align: left;
+        }
     }
 }

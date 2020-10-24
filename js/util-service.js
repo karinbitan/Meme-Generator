@@ -1,7 +1,29 @@
 'use strict';
 
-var key = 'canvas';
+function getSavedMemes() {
+    let memes = localStorage.getItem('savedMemes');
+    if (memes) {
+        memes = JSON.parse(memes);
+    }
+    else {
+        memes = [];
+    }
+
+    return memes;
+}
 
 function saveToLocalStorage() {
-    localStorage.setItem(key, gCanvas.toDataURL());
+    let memes = getSavedMemes();
+    if (gMeme.savedMemeIndex === -1) {
+        memes.push(gMeme);
+    } else {
+        memes[gMeme.savedMemeIndex] = gMeme;
+    }
+
+    localStorage.setItem('savedMemes', JSON.stringify(memes));
 }
+
+// function saveToLocalStorage() {
+//     localStorage.setItem('savedMemes', JSON.stringify(gMeme));
+// }
+

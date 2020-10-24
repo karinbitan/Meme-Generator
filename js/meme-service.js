@@ -1,9 +1,8 @@
 'use strict';
 var gCanvas;
 var gCtx;
+var gFocusText;
 
-var gCanvas2;
-var gCtx2;
 
 var gImgs = [
     { id: 1, url: 'img/1.jpg' },
@@ -27,8 +26,12 @@ var gImgs = [
 
 ];
 
+const firstLinePosition = 100;
+const secondLinePosition = 500;
+const centerLinePosition = 250;
+
 const default_text_line = {
-    txt: 'Please edit me',
+    txt: '',
     size: 50,
     align: 'start',
     strokeStyle: 'black',
@@ -38,28 +41,27 @@ const default_text_line = {
     y: 100
 };
 
-const firstLinePosition = 100;
-const secondLinePosition = 500;
-const centerLinePosition = 250;
-
-var gMeme =
-{
-    selectedImgId: 1,
-    selectedLineIdx: 0,
-    lines: [
-        {
-            txt: '',
-            size: 50,
-            align: 'start',
-            strokeStyle: 'black',
-            fillStyle: 'white',
-            font: 'Impact',
-            x: 10,
-            y: firstLinePosition
-        },
-    ]
+function get_default_meme() {
+    return {
+        selectedImgId: 1,
+        selectedLineIdx: 0,
+        savedMemeIndex: -1,
+        lines: [
+            {
+                txt: '',
+                size: 50,
+                align: 'start',
+                strokeStyle: 'black',
+                fillStyle: 'white',
+                font: 'Impact',
+                x: 10,
+                y: firstLinePosition
+            },
+        ]
+    };
 }
 
+var gMeme = get_default_meme();
 
 
 function getImgById(imgId) {
@@ -69,18 +71,28 @@ function getImgById(imgId) {
     return img;
 }
 
-function setImg(imgID) {
+function setMeme(memeModel = {}) {
+    let meme = {
+        ...get_default_meme(),
+        ...memeModel
+    };
 
-    for (let i = 0; i < gMeme.lines.length; i++) {
-        gMeme.lines[i].strokeStyle = 'black';
-        gMeme.lines[i].fillStyle = 'white';
-        gMeme.lines[i].txt = '';
-        gMeme.lines[i].size = 50;
-        gMeme.lines[i].align = 'start';
-    }
-    gMeme.selectedLineIdx = 0;
-    gMeme.selectedImgId = imgID;
+    meme.selectedLineIdx = 0;
+    gMeme = meme;
 }
+
+// function setImg(imgID) {
+
+//     for (let i = 0; i < gMeme.lines.length; i++) {
+//         gMeme.lines[i].strokeStyle = 'black';
+//         gMeme.lines[i].fillStyle = 'white';
+//         gMeme.lines[i].txt = '';
+//         gMeme.lines[i].size = 50;
+//         gMeme.lines[i].align = 'start';
+//     }
+//     gMeme.selectedLineIdx = 0;
+//     gMeme.selectedImgId = imgID;
+// }
 
 function addText(text) {
     if (!gMeme.lines[gMeme.selectedLineIdx]) {
@@ -90,27 +102,43 @@ function addText(text) {
     gMeme.lines[gMeme.selectedLineIdx].txt = text
 }
 
-function drawMeme() {
-    var imgId = gMeme.selectedImgId;
+function drawMeme(memeModel, canvasSelector, canvasContext) {
+
+    let meme;
+    let ctx;
+    let selector
+
+    if (memeModel && canvasContext) {
+        meme = memeModel;
+        ctx = canvasContext;
+        selector = canvasSelector;
+    }
+    else {
+        meme = gMeme;
+        ctx = gCtx;
+        selector = gCanvas;
+    }
+
+    var imgId = meme.selectedImgId;
     var selectedImg = getImgById(imgId);
     var img = new Image()
     img.src = selectedImg.url;
     img.onload = () => {
-        gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height)
-        for (let i = 0; i < gMeme.lines.length; i++) {
-            gCtx.strokeStyle = gMeme.lines[i].strokeStyle;
-            gCtx.fillStyle = gMeme.lines[i].fillStyle;
-            gCtx.lineWidth = '2'
-            gCtx.font = `${gMeme.lines[i].size}px ${gMeme.lines[i].font}`;
-            gCtx.textAlign = gMeme.lines[i].align;
+        ctx.drawImage(img, 0, 0, selector.width, selector.height)
+        for (let i = 0; i < meme.lines.length; i++) {
+            ctx.strokeStyle = meme.lines[i].strokeStyle;
+            ctx.fillStyle = meme.lines[i].fillStyle;
+            ctx.lineWidth = '2'
+            ctx.font = `${meme.lines[i].size}px ${meme.lines[i].font}`;
+            ctx.textAlign = meme.lines[i].align;
 
 
-            var posX = gMeme.lines[i].x;
-            var posY = gMeme.lines[i].y;
-            var text = gMeme.lines[i].txt;
+            var posX = meme.lines[i].x;
+            var posY = meme.lines[i].y;
+            var text = meme.lines[i].txt;
 
-            gCtx.fillText(text, posX, posY)
-            gCtx.strokeText(text, posX, posY)
+            ctx.fillText(text, posX, posY)
+            ctx.strokeText(text, posX, posY)
         }
     }
 }
