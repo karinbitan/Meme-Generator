@@ -21,9 +21,9 @@ function saveToLocalStorage() {
     }
 
     localStorage.setItem('savedMemes', JSON.stringify(memes));
+
+    document.querySelector('.share-container').innerText = 'Meme saved';
 }
 
-// function saveToLocalStorage() {
-//     localStorage.setItem('savedMemes', JSON.stringify(gMeme));
-// }
+
 

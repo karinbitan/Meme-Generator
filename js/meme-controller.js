@@ -6,13 +6,25 @@ function init() {
 
     renderEditor();
     renderGallery();
+
+    window.onresize = () => {
+        drawMeme();
+        focusText(gMeme.selectedLineIdx);
+    };
+}
+
+function resizeCanvas() {
+    var elContainer = document.querySelector('.canvas-container');
+    // Note: changing the canvas dimension this way clears the canvas
+    gCanvas.width = elContainer.offsetWidth; // show width & height in CSS
+    gCanvas.height = elContainer.offsetHeight;
 }
 
 function renderEditor() {
     var strHTML = '';
     strHTML = `
     <div class="tools">
-    <input type='text' onkeydown='onDrawText(this)' class='text-meme' placeholder='Type your text..' />
+    <input type='text' onkeyup='onDrawText(this)' class='text-meme' placeholder='Type your text..' />
     </div>
     <div class="tools">
     <button class='editor-btn' onclick='changeLine()'><img src='design/ICONS/up-and-down-opposite-double-arrows-side-by-side.png' /></button>
@@ -98,11 +110,18 @@ function focusText(selectedLineIdx = 0) {
     }
     var x = gMeme.lines[selectedLineIdx].x;
     var y = gMeme.lines[selectedLineIdx].y;
-    gFocusText.style.width = '520px';
-    gFocusText.style.height = '50px';
-    gFocusText.style.top = y - 45 + "px";
-    gFocusText.style.left = x - 5 + "px";
+    
+    gFocusText.style.width = document.querySelector('.canvas-container').offsetWidth - 20 + "px";
 
+    let default_height = 15;
+    let fontSize = gMeme.lines[selectedLineIdx].size;
+
+    const centerLineOffset = selectedLineIdx > 1 ? 20 : 0;
+
+    let canvasHeight = document.querySelector('.canvas-container').offsetHeight;
+    gFocusText.style.height = default_height + fontSize + 'px';
+    gFocusText.style.bottom = Math.abs(canvasHeight - y + centerLineOffset) + "px";
+    gFocusText.style.left = x - 5 + "px";
 }
 
 function editMeme(savedMemeIndex) {
@@ -147,18 +166,19 @@ function onAddLine() {
 
 function onDeleteLine() {
     deleteLine();
-
     drawMeme();
 }
 
 function onIncreaseFontSize() {
     increaseFontSize();
     drawMeme();
+    focusText(gMeme.selectedLineIdx);
 }
 
 function onDecreaseFontSize() {
     decreaseFontSize();
     drawMeme();
+    focusText(gMeme.selectedLineIdx);
 }
 
 function onChangeFont(value) {
@@ -178,7 +198,7 @@ function openGallery() {
     document.querySelector('.profile-section').style.display = 'flex';
     document.querySelector('.keyword-container').style.display = 'block';
     document.querySelector('.editor-container').style.display = 'none';
-    document.querySelector('.memes-tab').style.display = 'none';
+    document.querySelector('.memes-tab-container').style.display = 'none';
 }
 
 function openMemesEditor() {
@@ -187,7 +207,7 @@ function openMemesEditor() {
     document.querySelector('.profile-section').style.display = 'none';
     document.querySelector('.keyword-container').style.display = 'none';
     document.querySelector('.editor-container').style.display = 'flex';
-    document.querySelector('.memes-tab').style.display = 'none';
+    document.querySelector('.memes-tab-container').style.display = 'none';
 }
 
 function openSavesMemes() {
@@ -195,11 +215,12 @@ function openSavesMemes() {
     document.querySelector('.profile-section').style.display = 'none';
     document.querySelector('.keyword-container').style.display = 'none';
     document.querySelector('.editor-container').style.display = 'none';
-    document.querySelector('.memes-tab').style.display = 'block';
+    document.querySelector('.memes-tab-container').style.display = 'block';
 
     let memes = getSavedMemes();
 
     let memesTab = document.querySelector('.memes-tab');
+   
     memesTab.innerHTML = '';
 
     for (let i = 0; i < memes.length; i++) {
@@ -212,21 +233,10 @@ function openSavesMemes() {
         memesTab.appendChild(canvasElm);
 
         let canvas = canvasElm.getContext('2d');
-        drawMeme(memes[i], canvasElm, canvas)
+        drawMeme(memes[i], canvasElm, canvas);
+        document.querySelector('.memes-tab-container-msg').style.display = 'none';
     }
 
-
-    //     var gCanvas2;
-    // var gCtx2;
-    // gCanvas2 = document.querySelector('#meme-canvas2');
-    //     gCtx2 = gCanvas2.getContext('2d');
-
-
-    // var img = new Image;
-    // img.src = dataURL;
-    // img.onload = function () {
-    //     gCtx2.drawImage(img, 0, 0, gCanvas2.width, gCanvas2.height);
-    // };
 }
 
 function onChangeFontColor(color) {
@@ -242,7 +252,7 @@ function onChangeStrokeColor(color) {
 function openModal() {
     setTimeout(() => {
         document.querySelector('.modal').style.display = 'block';
-    }, 1000);
+    }, 300);
 }
 
 function closeModal() {
@@ -255,7 +265,7 @@ window.onclick = function (event) {
     }
 }
 
-
+//Share options
 // on submit call to this function
 function uploadImg(elForm, ev) {
     ev.preventDefault();
