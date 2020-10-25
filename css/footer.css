@@ -1,0 +1,17 @@
+/* Footer */
+
+.main-footer {
+    height: 207px;
+    background: #ff7f00;
+}
+
+.footer-container {
+    padding-top: 78px;
+    text-align: center;
+}
+
+.main-footer p {
+    font-size: 19px;
+    color: white;
+    font-family: mont-thin;
+}

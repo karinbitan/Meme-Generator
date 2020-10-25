@@ -1,7 +1,6 @@
 'use strict';
 var gCanvas;
 var gCtx;
-var gFocusText;
 
 var gImgs = [
     { id: 1, url: 'img/1.jpg' },
@@ -56,15 +55,23 @@ function getDefaultMeme() {
             font: 'Impact',
             x: 10,
             y: firstLinePosition
-        }, ]
+        },]
     };
 }
 
 var gMeme = getDefaultMeme();
 
+function getMeme() {
+    return gMeme;
+}
+
+function getCurrLine() {
+    return gMeme.lines[gMeme.selectedLineIdx];
+}
+
 
 function getImgById(imgId) {
-    var img = gImgs.find(function(img) {
+    var img = gImgs.find(function (img) {
         return imgId === img.id;
     })
     return img;
@@ -75,7 +82,6 @@ function setMeme(memeModel = {}) {
         ...getDefaultMeme(),
         ...memeModel
     };
-
     meme.selectedLineIdx = 0;
     gMeme = meme;
 }
@@ -105,44 +111,29 @@ function drawMeme(memeModel, canvasSelector, canvasContext) {
     img.src = selectedImg.url;
     img.onload = () => {
         ctx.drawImage(img, 0, 0, selector.width, selector.height)
-        for (let i = 0; i < meme.lines.length; i++) {
-            // var currLine = meme.lines[i];
-            ctx.strokeStyle = meme.lines[i].strokeStyle;
-            ctx.fillStyle = meme.lines[i].fillStyle;
-            ctx.lineWidth = '2'
-            ctx.font = `${meme.lines[i].size}px ${meme.lines[i].font}`;
-            ctx.textAlign = meme.lines[i].align;
-            var posX = meme.lines[i].x;
-            var posY = meme.lines[i].y;
-            var text = meme.lines[i].txt;
-            ctx.fillText(text, posX, posY)
-            ctx.strokeText(text, posX, posY)
-        }
         // ES6
-        // meme.lines.forEach(line => {
-        //     ctx.strokeStyle = line.strokeStyle;
-        //     ctx.fillStyle = line.fillStyle;
-        //     ctx.lineWidth = '2'
-        //     ctx.font = `${line.size}px ${line.font}`;
-        //     ctx.textAlign = line.align;
-        //     const { txt , x , y } = line;
-        //     ctx.fillText(txt, x, y)
-        //     ctx.strokeText(txt, x, y)
-        // })
+        meme.lines.forEach((line, idx) => {
+            if (idx === gMeme.selectedLineIdx) {
+                ctx.fillStyle = `rgba(255,255,255,0.75)`;
+                ctx.fillRect(0, line.y - line.size, gCanvas.width, line.size);
+            }
+            ctx.strokeStyle = line.strokeStyle;
+            ctx.fillStyle = line.fillStyle;
+            ctx.lineWidth = '2'
+            ctx.font = `${line.size}px ${line.font}`;
+            ctx.textAlign = line.align;
+            const { txt, x, y } = line;
+            ctx.fillText(txt, x, y)
+            ctx.strokeText(txt, x, y)
+        })
     }
 }
 
-function increaseFontSize() {
-    getCurrLine().size += 10;
+
+function changeFontSize(diff) {
+    getCurrLine().size += diff;
 }
 
-// function changeFont(diff) {
-//     getCurrLine().size += diff;
-// }
-
-function decreaseFontSize() {
-    getCurrLine().size -= 10;
-}
 
 function changeAlign(align) {
     // switch (align) {
@@ -175,7 +166,6 @@ function deleteLine() {
     });
     gMeme.selectedLineIdx = !gMeme.lines.length ? 0 : gMeme.lines.length - 1;
     document.querySelector('.text-meme').value = !gMeme.lines.length ? '' : getCurrLine().txt;
-    focusText(gMeme.selectedLineIdx);
 }
 
 function changeFontColor(color) {
@@ -186,10 +176,3 @@ function changeStrokeColor(color) {
     getCurrLine().strokeStyle = color;
 }
 
-function getMeme() {
-    return gMeme;
-}
-
-function getCurrLine() {
-    return gMeme.lines[gMeme.selectedLineIdx];
-}

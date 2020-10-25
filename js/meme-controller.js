@@ -3,14 +3,12 @@
 function init() {
     gCanvas = document.querySelector('#meme-canvas');
     gCtx = gCanvas.getContext('2d');
-    // renderEditor();
     renderGallery();
     window.onresize = () => {
         drawMeme();
-        focusText(gMeme.selectedLineIdx);
     };
 }
-
+// not in use right now
 function resizeCanvas() {
     var elContainer = document.querySelector('.canvas-container');
     // Note: changing the canvas dimension this way clears the canvas
@@ -18,56 +16,6 @@ function resizeCanvas() {
     gCanvas.height = elContainer.offsetHeight;
 }
 
-// function renderEditor() {
-//     var strHTML = '';
-//     strHTML = `
-//     <div class="tools">
-//     <input type='text' onkeyup='onDrawText(this)' class='text-meme' placeholder='Type your text..' />
-//     </div>
-//     <div class="tools">
-//     <button class='editor-btn' onclick='changeLine()'><img src='design/ICONS/up-and-down-opposite-double-arrows-side-by-side.png' /></button>
-//     <button class='editor-btn' onclick='onAddLine()'><img src='design/ICONS/add.png' /></button>
-//     <button class='editor-btn' onclick='onDeleteLine()'><img src='design/ICONS/trash.png' /></button>
-//     </div>
-//     <div class="tools">
-//     <button class='editor-btn' onclick='onIncreaseFontSize()'><img src='design/ICONS/increase-font-icon.png'></button>
-//     <button class='editor-btn' onclick='onDecreaseFontSize()'><img src='design/ICONS/decrease-font-icon.png'></button>
-//     <button class='editor-btn' onclick='changeAlign("left")'><img src='design/ICONS/align-to-left.png' /></button>
-//     <button class='editor-btn' onclick='changeAlign("center")'><img src='design/ICONS/center-text-alignment.png' /></button>
-//     <button class='editor-btn' onclick='changeAlign("right")'><img src='design/ICONS/align-to-right.png'/></button>
-//     </div>
-//     <div class="tools">
-//     <select class='change-font' onchange='onChangeFont(this.value)'>
-//     <option>Impact</option>
-//     <option>Arial</option>
-//     <option>Comic</option>
-//     <option>Verdana</option>
-//     <option>Serif</option>
-//     </select>
-
-//     <label for='stroke-color'>
-//     <div class='editor-btn color-picker-container'>
-//         <img src='design/ICONS/text-stroke.png'/>
-//         <input type='color' id='stroke-color' class='color-picker' onChange='onChangeStrokeColor(this.value)' />
-//     </div>
-    
-//     </label>
-//     <label for='font-color'>
-//     <div class='editor-btn color-picker-container'>
-//         <img src='design/ICONS/paint-board-and-brush.png'/>
-//         <input type='color' id='font-color' class='color-picker' onChange='onChangeFontColor(this.value)' />
-//     </div> 
-    
-//     </label>
-//     </div>
-//     <form action='' method='POST' enctype='multipart/form-data' onsubmit='uploadImg(this, event)'>
-//     <input name='img' id='imgData' type='hidden' />
-//     <button onclick='openModal()' class='share-btn' type='submit'>Share</button>
-// </form>
-//     `;
-
-//     document.querySelector('.editor').innerHTML = strHTML;
-// }
 
 function renderGallery() {
     var imgs = gImgs;
@@ -80,7 +28,7 @@ function changeLine() {
     meme.selectedLineIdx++;
     if (meme.selectedLineIdx > meme.lines.length - 1) meme.selectedLineIdx = 0;
     document.querySelector('.text-meme').value = meme.lines[meme.selectedLineIdx].txt;
-    focusText(meme.selectedLineIdx);
+    drawMeme();
 }
 
 function onDrawText(input) {
@@ -94,30 +42,30 @@ function onSetImg(imgID) {
     openMemesEditor();
     document.querySelector('.text-meme').value = '';
     drawMeme();
-    focusText();
 }
 
-function focusText(selectedLineIdx = 0) {
-    if (!gFocusText) {
-        gFocusText = document.createElement('div');
-        gFocusText.classList.add('focus-text');
-        document.querySelector('.canvas-container').appendChild(gFocusText);
-    }
-    var x = gMeme.lines[selectedLineIdx].x;
-    var y = gMeme.lines[selectedLineIdx].y;
+// function focusText(selectedLineIdx = 0, line) {
+//     if (!gFocusText) {
+        
+//         gFocusText = document.createElement('div');
+//         gFocusText.classList.add('focus-text');
+//         document.querySelector('.canvas-container').appendChild(gFocusText);
+//     }
+//     var x = gMeme.lines[selectedLineIdx].x;
+//     var y = gMeme.lines[selectedLineIdx].y;
     
-    gFocusText.style.width = document.querySelector('.canvas-container').offsetWidth - 20 + "px";
+//     gFocusText.style.width = document.querySelector('.canvas-container').offsetWidth - 20 + "px";
 
-    let default_height = 15;
-    let fontSize = gMeme.lines[selectedLineIdx].size;
+//     let defaultHeight = 25;
+//     let fontSize = gMeme.lines[selectedLineIdx].size;
 
-    const centerLineOffset = selectedLineIdx > 1 ? 20 : 0;
+//     const centerLineOffset = selectedLineIdx > 1 ? 20 : 0;
 
-    let canvasHeight = document.querySelector('.canvas-container').offsetHeight;
-    gFocusText.style.height = default_height + fontSize + 'px';
-    gFocusText.style.bottom = Math.abs(canvasHeight - y + centerLineOffset) + "px";
-    gFocusText.style.left = x - 5 + "px";
-}
+//     let canvasHeight = document.querySelector('.canvas-container').offsetHeight;
+//     gFocusText.style.height = defaultHeight + fontSize + 'px';
+//     gFocusText.style.bottom = Math.abs(canvasHeight - y + centerLineOffset) + "px";
+//     gFocusText.style.left = x - 5 + "px";
+// }
 
 function editMeme(savedMemeIndex) {
     let memes = getSavedMemes();
@@ -127,15 +75,13 @@ function editMeme(savedMemeIndex) {
     openMemesEditor();
     document.querySelector('.text-meme').value = memes[savedMemeIndex].lines[0].txt;
     drawMeme();
-    focusText();
 }
 
 function onAddLine() {
     if (gMeme.lines.length == 5) {
         return;
     }
-
-    let newLine = { ...default_text_line };
+    let newLine = { ...getDefaultLine() };
 
     var posY;
     if (gMeme.lines.length == 0) {
@@ -155,7 +101,6 @@ function onAddLine() {
     gMeme.lines.push(newLine);
     gMeme.selectedLineIdx = gMeme.lines.length - 1;
     drawMeme()
-    focusText(gMeme.selectedLineIdx);
     document.querySelector('.text-meme').value = newLine.txt;
 }
 
@@ -164,20 +109,8 @@ function onDeleteLine() {
     drawMeme();
 }
 
-// function onIncreaseFontSize() {
-//     increaseFontSize();
-//     drawMeme();
-//     focusText(gMeme.selectedLineIdx);
-// }
-
-// function onDecreaseFontSize() {
-//     decreaseFontSize();
-//     drawMeme();
-//     focusText(gMeme.selectedLineIdx);
-// }
-
-function onChangeFont(value) {
-    changeFont(value);
+function onChangeFontSize(value) {
+    changeFontSize(value);
     drawMeme();
 }
 
@@ -191,16 +124,15 @@ function onDownloadMeme(elLink) {
 function openGallery() {
     document.querySelector('.gallery').style.display = 'grid';
     document.querySelector('.profile-section').style.display = 'flex';
-    document.querySelector('.keyword-container').style.display = 'block';
+    // document.querySelector('.keyword-container').style.display = 'block';
     document.querySelector('.editor-container').style.display = 'none';
     document.querySelector('.memes-tab-container').style.display = 'none';
 }
 
 function openMemesEditor() {
-    // renderEditor();
     document.querySelector('.gallery').style.display = 'none';
     document.querySelector('.profile-section').style.display = 'none';
-    document.querySelector('.keyword-container').style.display = 'none';
+    // document.querySelector('.keyword-container').style.display = 'none';
     document.querySelector('.editor-container').style.display = 'flex';
     document.querySelector('.memes-tab-container').style.display = 'none';
 }
@@ -208,7 +140,7 @@ function openMemesEditor() {
 function openSavesMemes() {
     document.querySelector('.gallery').style.display = 'none';
     document.querySelector('.profile-section').style.display = 'none';
-    document.querySelector('.keyword-container').style.display = 'none';
+    // document.querySelector('.keyword-container').style.display = 'none';
     document.querySelector('.editor-container').style.display = 'none';
     document.querySelector('.memes-tab-container').style.display = 'block';
 
@@ -231,7 +163,6 @@ function openSavesMemes() {
         drawMeme(memes[i], canvasElm, canvas);
         document.querySelector('.memes-tab-container-msg').style.display = 'none';
     }
-
 }
 
 function onChangeFontColor(color) {

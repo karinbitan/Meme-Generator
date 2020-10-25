@@ -5,7 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meme Generator</title>
+    <link rel="stylesheet" href="css/fonts.css"> 
+    <link rel="stylesheet" href="css/basic.css">
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/footer.css"> 
     <link rel="stylesheet" href="css/helpers.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
@@ -27,13 +31,13 @@
         </div>
     </header>
     <main class="main-content">
-        <section class="keyword">
+        <!-- <section class="keyword">
             <div class="keyword-container container">
                 <input type="search" class="search" placeholder="Enter search keyword" />
                 <img src="design/ICONS/search-icon.png" width="20" height="20">
             </div>
-        </section>
-        <div class="editor-container">
+        </section> -->
+        <section class="editor-container container">
             <div class="canvas-container">
                 <canvas id="meme-canvas" width="540" height="550"></canvas>
             </div>
@@ -47,8 +51,8 @@
                     <button class='editor-btn' onclick='onDeleteLine()'><img src='design/ICONS/trash.png' /></button>
                 </div>
                 <div class="tools">
-                    <button class='editor-btn' onclick='onIncreaseFontSize(10)'><img src='design/ICONS/increase-font-icon.png'></button>
-                    <button class='editor-btn' onclick='onDecreaseFontSize(-10)'><img src='design/ICONS/decrease-font-icon.png'></button>
+                    <button class='editor-btn' onclick='onChangeFontSize(10)'><img src='design/ICONS/increase-font-icon.png'></button>
+                    <button class='editor-btn' onclick='onChangeFontSize(-10)'><img src='design/ICONS/decrease-font-icon.png'></button>
                     <button class='editor-btn' onclick='changeAlign("left")'><img src='design/ICONS/align-to-left.png' /></button>
                     <button class='editor-btn' onclick='changeAlign("center")'><img src='design/ICONS/center-text-alignment.png' /></button>
                     <button class='editor-btn' onclick='changeAlign("right")'><img src='design/ICONS/align-to-right.png'/></button>
@@ -90,8 +94,8 @@
                     <div class="share-container flex space-evenly"></div>
                 </div>
             </div>
-        </div>
-        <div class="gallery container"></div>
+        </section>
+        <section class="gallery container"></section>
         <section class="memes-tab-container">
             <p class="memes-tab-container-msg">You don't have saved memes yet.. go to gallery and make one :)</p>
             <div class="memes-tab container"></div>
@@ -121,7 +125,7 @@
 
     </footer>
 
-    <script src="js/util-service.js"></script>
+    <script src="js/storage-service.js"></script>
     <script src="js/meme-service.js"></script>
     <script src="js/meme-controller.js"></script>
 </body>
