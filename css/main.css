@@ -47,28 +47,6 @@ button {
     margin: 0 auto;
 }
 
-/* Helpers */
-
-.flex {
-    display: flex;
-}
-
-.flex-columns {
-    display: flex;
-    flex-direction: column;
-}
-
-.space-between {
-    justify-content: space-between;
-}
-
-.space-evenly{
-    justify-content: space-evenly;
-}
-
-.align-center {
-    align-items: center;
-}
 
 /* Header */
 

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meme Generator</title>
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/helpers.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
@@ -17,7 +18,8 @@
                 <li onclick="openGallery()">Gallery</li>
                 <li onclick="openSavesMemes()">Memes</li>
                 <li>About</li>
-                <li><a href="javascript:void(0);" class="icon" onclick="myFunction()">
+                <li>
+                    <a href="javascript:void(0);" class="icon" onclick="myFunction()">
                         <i class="fa fa-bars"></i>
                     </a>
                 </li>
@@ -35,7 +37,51 @@
             <div class="canvas-container">
                 <canvas id="meme-canvas" width="540" height="550"></canvas>
             </div>
-            <div class="editor flex-columns align-center"></div>
+            <div class="editor flex-columns align-center">
+                <div class="tools">
+                    <input type='text' onkeyup='onDrawText(this)' class='text-meme' placeholder='Type your text..' />
+                </div>
+                <div class="tools">
+                    <button class='editor-btn' onclick='changeLine()'><img src='design/ICONS/up-and-down-opposite-double-arrows-side-by-side.png' /></button>
+                    <button class='editor-btn' onclick='onAddLine()'><img src='design/ICONS/add.png' /></button>
+                    <button class='editor-btn' onclick='onDeleteLine()'><img src='design/ICONS/trash.png' /></button>
+                </div>
+                <div class="tools">
+                    <button class='editor-btn' onclick='onIncreaseFontSize(10)'><img src='design/ICONS/increase-font-icon.png'></button>
+                    <button class='editor-btn' onclick='onDecreaseFontSize(-10)'><img src='design/ICONS/decrease-font-icon.png'></button>
+                    <button class='editor-btn' onclick='changeAlign("left")'><img src='design/ICONS/align-to-left.png' /></button>
+                    <button class='editor-btn' onclick='changeAlign("center")'><img src='design/ICONS/center-text-alignment.png' /></button>
+                    <button class='editor-btn' onclick='changeAlign("right")'><img src='design/ICONS/align-to-right.png'/></button>
+                </div>
+                <div class="tools">
+                    <select class='change-font' onchange='onChangeFont(this.value)'>
+                        <option style="font-family: Impact;" value="Impact">Impact</option>
+                        <option style="font-family: Arial;" value="Arial">Arial</option>
+                        <option>Comic</option>
+                        <option>Verdana</option>
+                        <option>Serif</option>
+                    </select>
+
+                    <label for='stroke-color'>
+                    <div class='editor-btn color-picker-container flex-center'>
+                        <img src='design/ICONS/text-stroke.png'/>
+                        <input type='color' id='stroke-color' class='color-picker' oninput='onChangeStrokeColor(this.value)' />
+                    </div>
+                    
+                    </label>
+                    <label for='font-color'>
+                    <div class='editor-btn color-picker-container flex-center'>
+                        <img src='design/ICONS/paint-board-and-brush.png'/>
+                        <input type='color' id='font-color' class='color-picker' oninput='onChangeFontColor(this.value)' />
+                    </div> 
+                    
+                    </label>
+                </div>
+                <form action='' method='POST' enctype='multipart/form-data' onsubmit='uploadImg(this, event)'>
+                    <input name='img' id='imgData' type='hidden' />
+                    <button onclick='openModal()' class='share-btn' type='submit'>Share</button>
+                </form>
+            </div>
             <!-- The Modal -->
             <div id="myModal" class="modal">
                 <!-- Modal content -->
@@ -45,10 +91,9 @@
                 </div>
             </div>
         </div>
-            <div class="gallery container"></div>
+        <div class="gallery container"></div>
         <section class="memes-tab-container">
-            <p class="memes-tab-container-msg">You don't have saved memes yet.. go to gallery and
-                make one :)</p>
+            <p class="memes-tab-container-msg">You don't have saved memes yet.. go to gallery and make one :)</p>
             <div class="memes-tab container"></div>
         </section>
 
@@ -57,8 +102,7 @@
         <img class="profile-img" src="design/mon.png" alt="the real Monica" />
         <div class="profile-text flex-columns">
             <h4>Karin Bitan</h4>
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.<br />
-                Placeat cupiditate necessitatibus tempora? Ullam praesentium voluptates nam?</p>
+            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.<br /> Placeat cupiditate necessitatibus tempora? Ullam praesentium voluptates nam?</p>
             <div class="social-media-container">
                 <button class="social-media"><a href="https://www.linkedin.com/in/karin-bitan-2051341b8/"
                         target="_blank"><img src="design/ICONS/linkedin-logo2.png" alt="linkdin logo"></a></button>

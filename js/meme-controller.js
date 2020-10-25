@@ -3,10 +3,8 @@
 function init() {
     gCanvas = document.querySelector('#meme-canvas');
     gCtx = gCanvas.getContext('2d');
-
-    renderEditor();
+    // renderEditor();
     renderGallery();
-
     window.onresize = () => {
         drawMeme();
         focusText(gMeme.selectedLineIdx);
@@ -20,72 +18,69 @@ function resizeCanvas() {
     gCanvas.height = elContainer.offsetHeight;
 }
 
-function renderEditor() {
-    var strHTML = '';
-    strHTML = `
-    <div class="tools">
-    <input type='text' onkeyup='onDrawText(this)' class='text-meme' placeholder='Type your text..' />
-    </div>
-    <div class="tools">
-    <button class='editor-btn' onclick='changeLine()'><img src='design/ICONS/up-and-down-opposite-double-arrows-side-by-side.png' /></button>
-    <button class='editor-btn' onclick='onAddLine()'><img src='design/ICONS/add.png' /></button>
-    <button class='editor-btn' onclick='onDeleteLine()'><img src='design/ICONS/trash.png' /></button>
-    </div>
-    <div class="tools">
-    <button class='editor-btn' onclick='onIncreaseFontSize()'><img src='design/ICONS/increase-font-icon.png'></button>
-    <button class='editor-btn' onclick='onDecreaseFontSize()'><img src='design/ICONS/decrease-font-icon.png'></button>
-    <button class='editor-btn' onclick='changeAlign("left")'><img src='design/ICONS/align-to-left.png' /></button>
-    <button class='editor-btn' onclick='changeAlign("center")'><img src='design/ICONS/center-text-alignment.png' /></button>
-    <button class='editor-btn' onclick='changeAlign("right")'><img src='design/ICONS/align-to-right.png'/></button>
-    </div>
-    <div class="tools">
-    <select class='change-font' onchange='onChangeFont(this.value)'>
-    <option>Impact</option>
-    <option>Arial</option>
-    <option>Comic</option>
-    <option>Verdana</option>
-    <option>Serif</option>
-    </select>
+// function renderEditor() {
+//     var strHTML = '';
+//     strHTML = `
+//     <div class="tools">
+//     <input type='text' onkeyup='onDrawText(this)' class='text-meme' placeholder='Type your text..' />
+//     </div>
+//     <div class="tools">
+//     <button class='editor-btn' onclick='changeLine()'><img src='design/ICONS/up-and-down-opposite-double-arrows-side-by-side.png' /></button>
+//     <button class='editor-btn' onclick='onAddLine()'><img src='design/ICONS/add.png' /></button>
+//     <button class='editor-btn' onclick='onDeleteLine()'><img src='design/ICONS/trash.png' /></button>
+//     </div>
+//     <div class="tools">
+//     <button class='editor-btn' onclick='onIncreaseFontSize()'><img src='design/ICONS/increase-font-icon.png'></button>
+//     <button class='editor-btn' onclick='onDecreaseFontSize()'><img src='design/ICONS/decrease-font-icon.png'></button>
+//     <button class='editor-btn' onclick='changeAlign("left")'><img src='design/ICONS/align-to-left.png' /></button>
+//     <button class='editor-btn' onclick='changeAlign("center")'><img src='design/ICONS/center-text-alignment.png' /></button>
+//     <button class='editor-btn' onclick='changeAlign("right")'><img src='design/ICONS/align-to-right.png'/></button>
+//     </div>
+//     <div class="tools">
+//     <select class='change-font' onchange='onChangeFont(this.value)'>
+//     <option>Impact</option>
+//     <option>Arial</option>
+//     <option>Comic</option>
+//     <option>Verdana</option>
+//     <option>Serif</option>
+//     </select>
 
-    <label for='stroke-color'>
-    <div class='editor-btn color-picker-container'>
-        <img src='design/ICONS/text-stroke.png'/>
-        <input type='color' id='stroke-color' class='color-picker' onChange='onChangeStrokeColor(this.value)' />
-    </div>
+//     <label for='stroke-color'>
+//     <div class='editor-btn color-picker-container'>
+//         <img src='design/ICONS/text-stroke.png'/>
+//         <input type='color' id='stroke-color' class='color-picker' onChange='onChangeStrokeColor(this.value)' />
+//     </div>
     
-    </label>
-    <label for='font-color'>
-    <div class='editor-btn color-picker-container'>
-        <img src='design/ICONS/paint-board-and-brush.png'/>
-        <input type='color' id='font-color' class='color-picker' onChange='onChangeFontColor(this.value)' />
-    </div> 
+//     </label>
+//     <label for='font-color'>
+//     <div class='editor-btn color-picker-container'>
+//         <img src='design/ICONS/paint-board-and-brush.png'/>
+//         <input type='color' id='font-color' class='color-picker' onChange='onChangeFontColor(this.value)' />
+//     </div> 
     
-    </label>
-    </div>
-    <form action='' method='POST' enctype='multipart/form-data' onsubmit='uploadImg(this, event)'>
-    <input name='img' id='imgData' type='hidden' />
-    <button onclick='openModal()' class='share-btn' type='submit'>Share</button>
-</form>
-    `;
+//     </label>
+//     </div>
+//     <form action='' method='POST' enctype='multipart/form-data' onsubmit='uploadImg(this, event)'>
+//     <input name='img' id='imgData' type='hidden' />
+//     <button onclick='openModal()' class='share-btn' type='submit'>Share</button>
+// </form>
+//     `;
 
-    document.querySelector('.editor').innerHTML = strHTML;
-}
+//     document.querySelector('.editor').innerHTML = strHTML;
+// }
 
 function renderGallery() {
     var imgs = gImgs;
-    var strHTML = imgs.map(function (img) {
-        return `<img src='${img.url}' class='img-meme' onclick='onSetImg(${img.id})' />`;
-    })
+    var strHTML = imgs.map(img => `<img src='${img.url}' class='img-meme' onclick='onSetImg(${img.id})' />`)
     document.querySelector('.gallery').innerHTML = strHTML.join('');
 }
 
 function changeLine() {
-    gMeme.selectedLineIdx++;
-    if (gMeme.selectedLineIdx > gMeme.lines.length - 1) {
-        gMeme.selectedLineIdx = 0
-    }
-    document.querySelector('.text-meme').value = gMeme.lines[gMeme.selectedLineIdx].txt;
-    focusText(gMeme.selectedLineIdx);
+    const meme = getMeme();
+    meme.selectedLineIdx++;
+    if (meme.selectedLineIdx > meme.lines.length - 1) meme.selectedLineIdx = 0;
+    document.querySelector('.text-meme').value = meme.lines[meme.selectedLineIdx].txt;
+    focusText(meme.selectedLineIdx);
 }
 
 function onDrawText(input) {
@@ -169,17 +164,17 @@ function onDeleteLine() {
     drawMeme();
 }
 
-function onIncreaseFontSize() {
-    increaseFontSize();
-    drawMeme();
-    focusText(gMeme.selectedLineIdx);
-}
+// function onIncreaseFontSize() {
+//     increaseFontSize();
+//     drawMeme();
+//     focusText(gMeme.selectedLineIdx);
+// }
 
-function onDecreaseFontSize() {
-    decreaseFontSize();
-    drawMeme();
-    focusText(gMeme.selectedLineIdx);
-}
+// function onDecreaseFontSize() {
+//     decreaseFontSize();
+//     drawMeme();
+//     focusText(gMeme.selectedLineIdx);
+// }
 
 function onChangeFont(value) {
     changeFont(value);
@@ -202,7 +197,7 @@ function openGallery() {
 }
 
 function openMemesEditor() {
-    renderEditor();
+    // renderEditor();
     document.querySelector('.gallery').style.display = 'none';
     document.querySelector('.profile-section').style.display = 'none';
     document.querySelector('.keyword-container').style.display = 'none';
